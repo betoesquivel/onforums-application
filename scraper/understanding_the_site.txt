@@ -1,0 +1,74 @@
+# How an article URL with no comment section looks
+http://www.theguardian.com/world/2016/feb/09/bavaria-train-crash-german-police-report-deaths-and-injuries
+# How an article URL with comment section looks
+http://www.theguardian.com/world/2016/feb/09/draft-snoopers-charter-fails-on-spying-powers-and-privacy-protections
+
+# Extracting Article Data
+span[@itemscope] ??? Check if all important bits of info have attr itemscope nope
+body/article
+
+## Title
+header/h1[@itemprop="headline"]
+'//h1[@itemprop="headline"]/text()'
+## Description
+header/meta[@itemprop="description"]/@content
+'//meta[@itemprop="description"]/@content'
+## Author
+span[@itemscope and @itemtype="http://schema.org/Person" and @itemprop="author"]
+'//span[@itemprop="author"]//span[@itemprop="name"]/text()'
+## Published Datetime
+time[@itemprop="datePublished"]/@datetime
+'//time[@itemprop="datePublished"]/@datetime'
+?? It also has data-timestamp attribute... maybe that's easier to use in python
+## Body
+div[@itemprop="articleBody"]/p
+'//div[@itemprop="articleBody"]//p/text()' *paragraphs*
+## Keywords
+a[@itemprop="keywords"] Multiple keywords!!
+'//a[@itemprop="keywords"]/text()' *keywords*
+## Comment URL
+a[@data-link-name="View all comments"]/@href
+a[href="http://www.theguardian.com/discussion/p/<CODE>"] ?? regex in href?
+Make a yield of a request that calls back on the comments parsing method
+'//a[@data-link-name="View all comments"]/@href'
+
+
+# Extracting Comments Data
+Parse all comments in the page, and if there is a next page, yield a request with
+a callback to the comments parsing method as well.
+
+Find a span with @tabindex="0", extract it, parse to int, add 1 -> x, and see if you can find
+a[@data-page=string(x)]. If so, then create another request and yield it, if not, then yield the article.
+
+Comments are in
+li[@itemtype="http://schema.org/Comment"]
+'//li[@itemtype="http://schema.org/Comment"]'
+
+## Comment id
+'@data-comment-id'
+
+## Author
+@data-comment-author
+'@data-comment-author'
+@data-comment-author-id
+'@data-comment-author-id'
+
+## Replies
+@data-comment-replies
+'@data-comment-replies'
+
+## Timestamp
+@data-comment-timestamp
+2016-02-09T12:23:26.000Z
+'@data-comment-timestamp'
+
+## Reply to author author name
+span[@class="d-comment__reply-to-author"]
+'.//span[@class="d-comment__reply-to-author"]'
+## Reply to comment
+a[@href="#comment-<comment-id>"]/@href ?? Can I use regex on the href?
+'.//a[contains(@href, "#comment-")]/@href'
+
+## Content
+div[@class="d-comment__body" and @itemprop="text"]
+'.//div[@itemprop="text" and @class="d-comment__body"]/*/text()' *many*

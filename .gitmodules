@@ -1,0 +1,12 @@
+[submodule "summarizer"]
+	path = summarizer
+	url = git@github.com:betoesquivel/onforums-summarizer
+[submodule "testdataextractor"]
+	path = testdataextractor
+	url = git@github.com:betoesquivel/onforums-testdataextractor
+[submodule "linkfinder"]
+	path = linkfinder
+	url = git@github.com:betoesquivel/onforums-linkfinder
+[submodule "scraper"]
+	path = scraper
+	url = git@github.com:betoesquivel/onforums-scraper
