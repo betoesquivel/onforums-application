@@ -14,6 +14,13 @@ BOT_NAME = 'guardianukscraper'
 SPIDER_MODULES = ['guardianukscraper.spiders']
 NEWSPIDER_MODULE = 'guardianukscraper.spiders'
 
+ITEM_PIPELINES = ['stack.pipelines.MongoDBPipeline']
+
+MONGODB_SERVER = "localhost"
+MONGODB_PORT = 27017
+MONGODB_DB = "guardian"
+MONGODB_COLLECTION = "articles"
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'guardianukscraper (+http://www.yourdomain.com)'
