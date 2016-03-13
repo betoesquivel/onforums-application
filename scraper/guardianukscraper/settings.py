@@ -11,15 +11,20 @@
 
 BOT_NAME = 'guardianukscraper'
 
+DOWNLOAD_HANDLERS = {"s3": None,}
+
 SPIDER_MODULES = ['guardianukscraper.spiders']
 NEWSPIDER_MODULE = 'guardianukscraper.spiders'
 
-ITEM_PIPELINES = ['stack.pipelines.MongoDBPipeline']
+ITEM_PIPELINES = {
+    'scraper.guardianukscraper.pipelines.MongoDBPipeline': 300,
+}
 
-MONGODB_SERVER = "localhost"
+MONGODB_SERVER = "127.0.0.1"
 MONGODB_PORT = 27017
 MONGODB_DB = "guardian"
 MONGODB_COLLECTION = "articles"
+
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
