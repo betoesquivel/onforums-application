@@ -15,6 +15,7 @@ cycler==0.9.0
 decorator==4.0.4
 docopt==0.6.2
 enum34==1.1.2
+Flask==0.10.1
 functools32==3.2.3.post2
 gensim==0.12.4
 gnureadline==6.3.3
@@ -24,6 +25,7 @@ ipaddress==1.0.16
 ipykernel==4.1.1
 ipython==4.0.0
 ipython-genutils==0.1.0
+itsdangerous==0.24
 Janome==0.2.7
 Jinja2==2.8
 jsonschema==2.5.1
@@ -50,6 +52,7 @@ pyasn1-modules==0.0.8
 pycparser==2.14
 pydot==1.0.2
 Pygments==2.0.2
+pymongo==3.2.1
 pyOpenSSL==0.15.1
 pyparsing==1.5.7
 python-dateutil==2.4.2
@@ -74,5 +77,6 @@ tornado==4.3
 traitlets==4.0.0
 Twisted==15.5.0
 w3lib==1.13.0
+Werkzeug==0.11.4
 yolk==0.4.3
 zope.interface==4.1.3
