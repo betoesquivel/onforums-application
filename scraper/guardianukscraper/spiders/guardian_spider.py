@@ -1,6 +1,6 @@
 import scrapy
 
-from guardianukscraper.items import Article, Comment
+from ..items import Article, Comment
 
 class GuardianSpider(scrapy.Spider):
     name = "guardian"
