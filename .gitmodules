@@ -10,3 +10,6 @@
 [submodule "scraper"]
 	path = scraper
 	url = git@github.com:betoesquivel/onforums-scraper
+[submodule "summpy"]
+	path = summpy
+	url = git@github.com:betoesquivel/summpy
