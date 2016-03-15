@@ -3,6 +3,8 @@ from linkfinder.linkfinder.link_finder import strong_similarities_and_appropriat
 from linkfinder.linkfinder.link_finder import perform_queries_and_get_links
 from linkfinder.linkfinder.link_finder import find_links_between_in
 
+import copy
+
 def order_comments(comments):
     comments.reverse()
 
@@ -87,8 +89,8 @@ def classify_links(s_dict, all_sentences, comment_start_index):
     comment_start_index has the offset to add to the comment
     sentence number to change it into an id.
 
-    It changes the list of links into a triple, with the:
-    (sentence_id, percentage, "type of link")
+    It changes the list of links into an array, with the:
+    [sentence_id, percentage, "type of link"]
 
 
     '''
@@ -99,7 +101,7 @@ def classify_links(s_dict, all_sentences, comment_start_index):
             # category = classify(all_sentences[comment_sentence_id],
             #           all_sentences[l[0]])
             category = 'stub'
-            classified_links.append((l[0], l[1], category))
+            classified_links.append((l[0], l[1].item(), category))
         s_dict[comment_no] = classified_links
 
 def summarize(article_dict):

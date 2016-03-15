@@ -35,7 +35,7 @@ def crawl_guardian(job_id, url):
 @app.route("/")
 def hello():
     if 'scrape' not in session:
-        result = crawl_guardian(-2)
+        result = crawl_guardian(-2, None)
         session['scrape'] = result.stash()
         return "Starting scraping, refresh to track."
 
