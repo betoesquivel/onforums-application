@@ -9,12 +9,20 @@ class GuardianSpider(scrapy.Spider):
         "http://www.theguardian.com/world/2016/feb/09/draft-snoopers-charter-fails-on-spying-powers-and-privacy-protections"
     ]
 
+    def __init__(self, job_id=-1,
+            url="http://www.theguardian.com/world/2016/feb/09/draft-snoopers-charter-fails-on-spying-powers-and-privacy-protections"
+            ):
+        self.start_urls = [url]
+        self.job_id = job_id
+
+
     def parse(self, response):
         '''
         Parse the article, and yield a request to parse the comments if there is a
         comment section.
         '''
         article = Article()
+        article['job_id']         = self.job_id
         article['title']          = response.xpath('//h1[@itemprop="headline"]/text()').extract()[0]
         article['desc']           = response.xpath('//meta[@itemprop="description"]/@content').extract()[0]
         article['author']         = response.xpath('//span[@itemprop="author"]//span[@itemprop="name"]/text()').extract()[0]
@@ -27,6 +35,7 @@ class GuardianSpider(scrapy.Spider):
         url = article['comments_url']
         request = scrapy.Request(url, callback=self.parse_comments)
         request.meta['article'] = article
+
         yield request
 
     def parse_comments(self, response):

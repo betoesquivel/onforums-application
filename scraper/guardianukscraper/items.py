@@ -17,6 +17,7 @@ class Article(scrapy.Item):
     keywords = scrapy.Field()
     comments_url = scrapy.Field()
     comments = scrapy.Field()
+    job_id = scrapy.Field()
 
 class Comment(scrapy.Item):
     comment_id = scrapy.Field()

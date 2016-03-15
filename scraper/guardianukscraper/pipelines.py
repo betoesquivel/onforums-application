@@ -9,10 +9,7 @@ from scraper.guardianukscraper import settings
 from scrapy.settings import Settings
 import logging
 
-
-#class GuardianukscraperPipeline(object):
-    #def process_item(self, item, spider):
-        #return item
+from summarizer.summarizer import summarize
 
 class MongoDBPipeline(object):
 
@@ -28,11 +25,8 @@ class MongoDBPipeline(object):
 
     def process_item(self, item, spider):
         valid = True
-        #for data in item:
-            #if not data:
-                #valid = False
-                #raise DropItem("Missing {0}!".format(data))
         if item:
-            self.collection.insert(dict(item))
+            summary = summarize(dict(item))
+            self.collection.insert(summary)
             logging.log(logging.INFO, "Article added.")
         return item

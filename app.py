@@ -9,7 +9,7 @@ setup()
 app = Flask(__name__)
 
 @run_in_reactor
-def crawl_guardian():
+def crawl_guardian(job_id, url):
     import scrapy
     from scrapy.crawler import CrawlerProcess, CrawlerRunner
     from scrapy.settings import Settings
@@ -27,14 +27,15 @@ def crawl_guardian():
     configure_logging({'LOG_FORMAT': '%(levelname)s: %(message)s'})
 
     crawler = scrapy.crawler.Crawler(GuardianSpider,settings)
-    crawler.crawl()
+    crawler.crawl(job_id=job_id)
+    #crawler.crawl(job_id=job_id, url=url)
 
     return "Done"
 
 @app.route("/")
 def hello():
     if 'scrape' not in session:
-        result = crawl_guardian()
+        result = crawl_guardian(-2)
         session['scrape'] = result.stash()
         return "Starting scraping, refresh to track."
 
