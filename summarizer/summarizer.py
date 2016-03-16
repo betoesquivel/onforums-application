@@ -5,6 +5,11 @@ from linkfinder.linkfinder.link_finder import find_links_between_in
 
 import copy
 
+print "Loading argument classifier..."
+from sklearn.externals import joblib
+arguments_clf = joblib.load('classifiers/arguments/arguments.pkl')
+print "Done."
+
 def order_comments(comments):
     comments.reverse()
 
@@ -78,6 +83,17 @@ def preprocess_article(article_dict):
     order_comments(article_dict['comments'])
     split_into_sentences(article_dict)
 
+def vectorize_sentences(sent1, sent2):
+    import numpy as np
+    import math
+    from sklearn.feature_extraction.text import CountVectorizer
+    vect = CountVectorizer()
+    sent_pair = vect.fit_transform([ sent1, sent2 ]).toarray()
+    lx = np.sqrt(sent_pair[0].dot(sent_pair[0]))
+    ly = np.sqrt(sent_pair[1].dot(sent_pair[1]))
+    cos_angle = (sent_pair[0].dot(sent_pair[1]) + 1) / (lx * ly + 1)
+    return np.matrix([ cos_angle ])
+
 def classify_links(s_dict, all_sentences, comment_start_index):
     '''
     Receive a similarity links structure in the form of
@@ -98,9 +114,9 @@ def classify_links(s_dict, all_sentences, comment_start_index):
         comment_sentence_id = comment_no + comment_start_index
         classified_links = []
         for l in link_list:
-            # category = classify(all_sentences[comment_sentence_id],
-            #           all_sentences[l[0]])
-            category = 'stub'
+            sentenceA = all_sentences[comment_sentence_id]
+            sentenceB = all_sentences[l[0]]
+            category = arguments_clf.predict(vectorize_sentences(sentenceA, sentenceB))[0]
             classified_links.append((l[0], l[1].item(), category))
         s_dict[comment_no] = classified_links
 
@@ -124,4 +140,3 @@ def summarize(article_dict):
                    len(summary['article_sentences']))
 
     return summary
-

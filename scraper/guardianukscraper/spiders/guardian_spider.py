@@ -25,7 +25,8 @@ class GuardianSpider(scrapy.Spider):
         article['job_id']         = self.job_id
         article['title']          = response.xpath('//h1[@itemprop="headline"]/text()').extract()[0]
         article['desc']           = response.xpath('//meta[@itemprop="description"]/@content').extract()[0]
-        article['author']         = response.xpath('//span[@itemprop="author"]//span[@itemprop="name"]/text()').extract()[0]
+        author_data = response.xpath('//span[@itemprop="author"]//span[@itemprop="name"]/text()').extract()
+        article['author']         = author_data[0] if len(author_data) > 0 else ""
         article['date_published'] = response.xpath('//time[@itemprop="datePublished"]/@datetime').extract()[0]
         article['body']           = response.xpath('//div[@itemprop="articleBody"]//p/text()').extract()
         article['keywords']       = response.xpath('//a[@itemprop="keywords"]/text()').extract()
